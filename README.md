@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🔧 Manufacturing Log Analyzer
 
 **LLM-powered diagnostics for laser cutting & welding environments.**
@@ -176,3 +177,6 @@ manufacturing-log-analyzer/
 ## License
 
 MIT
+=======
+# manufacturing-log-analyzer
+>>>>>>> 26062762b4f66d21a73f42aa6f712300aefb32ce
