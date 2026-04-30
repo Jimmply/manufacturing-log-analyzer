@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🔧 Manufacturing Log Analyzer
 
 **LLM-powered diagnostics for laser cutting & welding environments.**
