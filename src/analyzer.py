@@ -149,7 +149,7 @@ class LLMBackend(ABC):
 class AnthropicBackend(LLMBackend):
     """Anthropic Claude API backend."""
 
-    def __init__(self, api_key: str, model: str = "claude-sonnet-4-20250514"):
+    def __init__(self, api_key: str, model: str = "claude-sonnet-4-6"):
         import anthropic
         self.client = anthropic.Anthropic(api_key=api_key)
         self.model = model
@@ -223,7 +223,7 @@ DEFAULT_MODELS = {
     "gemini": "gemini-2.0-flash",
     "groq": "llama-3.3-70b-versatile",
     "ollama": "llama3.1:8b",
-    "anthropic": "claude-sonnet-4-20250514",
+    "anthropic": "claude-sonnet-4-6",
     "openai": "gpt-4o-mini",
 }
 
@@ -413,6 +413,41 @@ class ManufacturingAnalyzer:
             result = self.analyze_window(window)
             results.append(result)
         return results
+
+    def detect_recurring_patterns(
+        self,
+        diagnoses: list[DiagnosisResult],
+        min_occurrences: int = 2,
+    ) -> dict:
+        """
+        Identify machines and failure modes that appear more than once.
+
+        Returns a dict with:
+          - by_machine:     {machine_id: [failure_modes]}
+          - by_mode:        {failure_mode: count}
+          - repeat_offenders: machines with >= min_occurrences failures
+          - dominant_mode:  most common failure mode across the fleet
+        """
+        from collections import Counter, defaultdict
+
+        by_machine: dict[str, list[str]] = defaultdict(list)
+        mode_counts: Counter = Counter()
+
+        for d in diagnoses:
+            by_machine[d.machine_id].append(d.failure_mode)
+            mode_counts[d.failure_mode] += 1
+
+        repeat_offenders = [
+            m for m, modes in by_machine.items() if len(modes) >= min_occurrences
+        ]
+        dominant_mode = mode_counts.most_common(1)[0][0] if mode_counts else "UNKNOWN"
+
+        return {
+            "by_machine": dict(by_machine),
+            "by_mode": dict(mode_counts),
+            "repeat_offenders": repeat_offenders,
+            "dominant_mode": dominant_mode,
+        }
 
     def generate_fleet_summary(
         self,

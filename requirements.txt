@@ -8,4 +8,4 @@ pytest>=7.4.0
 # LLM providers — install the one(s) you want to use:
 google-genai>=1.0.0     # Gemini (free) — recommended to start
 openai>=1.0.0           # OpenAI, Groq, or Ollama (all use OpenAI SDK)
-# anthropic>=0.40.0     # Anthropic Claude (paid) — uncomment if needed
+anthropic>=0.52.0       # Anthropic Claude (claude-sonnet-4-6 / claude-opus-4-7)
