@@ -18,6 +18,22 @@ Built with real-world manufacturing domain knowledge from analyzing 0.5–1 TB p
 4. **Fleet-level reporting** — aggregates findings across machines, identifies cross-machine patterns, prioritizes maintenance actions
 5. **Interactive dashboard** — Streamlit UI for exploring sensor trends, failure windows, and LLM analysis results
 
+## Results at a Glance
+
+Example run on a 2,000-row synthetic fleet log (`seed=42`, 5 machines over 90 days):
+
+| Metric | Value |
+|---|---|
+| Logs ingested | **2,000** rows across 5 machines (LC-01…03, WD-01…02) |
+| Severity breakdown | INFO 45% · WARNING 26% · ERROR 21% · **CRITICAL 7%** |
+| Failure categories modeled | **6** — Thermal, Optical, Pneumatic, Mechanical, Material, Electrical |
+| Named failure scenarios | **6** — thermal_runaway, beam_misalignment, gas_system_failure, mechanical_wear, material_defect, electrical_fault |
+| Point-anomaly flags (Z‑score ≥ 3σ) | 7 (0.4% rate) |
+| **Failure windows surfaced to LLM** | **355** — clustered by machine + time proximity, each a structured 10-field record |
+| LLM providers supported | 4 — Claude · Gemini (free) · OpenAI/Groq · Ollama (local) |
+
+The failure-window count is the one that matters — each window is an LLM input, and the fleet-report step aggregates classifications across all 355 to produce a prioritized maintenance list.
+
 ## Architecture
 
 ```
