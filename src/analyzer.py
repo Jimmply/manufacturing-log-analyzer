@@ -149,7 +149,7 @@ class LLMBackend(ABC):
 class AnthropicBackend(LLMBackend):
     """Anthropic Claude API backend."""
 
-    def __init__(self, api_key: str, model: str = "claude-sonnet-4-6"):
+    def __init__(self, api_key: str, model: str = "claude-sonnet-5-5"):
         import anthropic
         self.client = anthropic.Anthropic(api_key=api_key)
         self.model = model
@@ -223,7 +223,7 @@ DEFAULT_MODELS = {
     "gemini": "gemini-2.0-flash",
     "groq": "llama-3.3-70b-versatile",
     "ollama": "llama3.1:8b",
-    "anthropic": "claude-sonnet-4-6",
+    "anthropic": "claude-sonnet-5-5",
     "openai": "gpt-4o-mini",
 }
 
